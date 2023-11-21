@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["**"]
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    name: Build Modules
+    runs-on: ubuntu-latest
+    container:
+      image: nightscape/scala-mill:graalvm-community-20.0.2-ol9-20230725_0.11.5_2.13.11
+    steps:
+      - name: Checkout current branch (full)
+        uses: actions/checkout@v3
+
+      - name: Compile
+        run: mill -d -k --disable-ticker __.compile
+
